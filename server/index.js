@@ -10,6 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+
 const connectDB = async () => {
     try {
         await mongoose.connect(process.env.MONGO_URI);
@@ -19,10 +20,20 @@ const connectDB = async () => {
     }
 };
 
+
+
 app.get("/", (req, res) => {
     res.json({
         success: true,
         message: "Server is up and running..."
+    });
+});
+
+app.get("/api/test", (req, res) => {
+    console.log("Actual controller test1 called");
+
+    res.json({
+        message: "Test1 route reached"
     });
 });
 
