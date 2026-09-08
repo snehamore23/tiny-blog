@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 
+import { postSignup, postLogin } from "./controllers/user.js";
+
 dotenv.config();
 
 const app = express();
@@ -10,18 +12,16 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-
 const connectDB = async () => {
     try {
         await mongoose.connect(process.env.MONGO_URI);
         console.log("✅ MongoDB Connected");
     } catch (error) {
-        console.log(error);
+        console.log("❌ MongoDB Error:", error.message);
     }
 };
 
-
-
+// Home route
 app.get("/", (req, res) => {
     res.json({
         success: true,
@@ -29,11 +29,15 @@ app.get("/", (req, res) => {
     });
 });
 
-app.get("/api/test", (req, res) => {
-    console.log("Actual controller test1 called");
+// Signup and Login
+app.post("/signup", postSignup);
+app.post("/login", postLogin);
 
+// Test route
+app.get("/api/test", (req, res) => {
     res.json({
-        message: "Test1 route reached"
+        success: true,
+        message: "Test route working"
     });
 });
 
