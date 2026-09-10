@@ -1,5 +1,69 @@
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
+
 function Login() {
-    return <h1>Login</h1>;
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+
+  const loginUser = async () => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/login`,
+        user
+      );
+
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.response?.data || error.message);
+    }
+  };
+
+  return (
+    <div>
+      <h1 className="text-center text-4xl my-4">Login</h1>
+
+      <div className="max-w-[400px] mx-auto border border-gray-500 py-10 px-14 rounded-md">
+
+        <input
+          type="email"
+          placeholder="Email"
+          className="border p-2 rounded w-full mb-4"
+          value={user.email}
+          onChange={(e) =>
+            setUser({ ...user, email: e.target.value })
+          }
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          className="border p-2 rounded w-full mb-4"
+          value={user.password}
+          onChange={(e) =>
+            setUser({ ...user, password: e.target.value })
+          }
+        />
+
+        <button
+          onClick={loginUser}
+          className="bg-gray-700 text-white px-6 py-2 rounded-md"
+        >
+          Login
+        </button>
+
+        <p className="mt-6">
+          Don't have an account?{" "}
+          <Link to="/signup" className="text-blue-500 underline">
+            Signup
+          </Link>
+        </p>
+
+      </div>
+    </div>
+  );
 }
 
 export default Login;
