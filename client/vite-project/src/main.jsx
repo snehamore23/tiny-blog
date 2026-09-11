@@ -12,13 +12,18 @@ import Signup from "./views/Signup";
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<AllBlogs />} />
-      <Route path="/new" element={<NewBlog />} />
-      <Route path="/edit/:id" element={<EditBlog />} />
-      <Route path="/blog/:slug" element={<ReadBlog />} />
-      <Route path="/Login" element={<Login/>}/>
-      <Route path="/signup" element={<Signup/>}/>
 
+      <Route path="/" element={<AllBlogs />} />
+
+      <Route path="/new" element={<NewBlog />} />
+
+      <Route path="/edit/:id" element={<EditBlog />} />
+
+      <Route path="/blog/:slug" element={<ReadBlog />} />
+
+      <Route path="/login" element={<Login />} />
+
+      <Route path="/signup" element={<Signup />} />
 
       <Route
         path="*"
@@ -28,6 +33,7 @@ createRoot(document.getElementById("root")).render(
           </h1>
         }
       />
+
     </Routes>
   </BrowserRouter>
 );
