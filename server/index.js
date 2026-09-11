@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
-
+import { postBlog } from "./controllers/blog.js";
 import { postSignup, postLogin } from "./controllers/user.js";
 
 dotenv.config();
@@ -32,6 +32,7 @@ app.get("/", (req, res) => {
 // Signup and Login
 app.post("/signup", postSignup);
 app.post("/login", postLogin);
+app.post("/blog",postBlog);
 
 // Test route
 app.get("/api/test", (req, res) => {

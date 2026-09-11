@@ -1,0 +1,30 @@
+export const BLOG_CATEGORIES = [
+  "Technology",
+  "Programming",
+  "Web Development",
+  "Artificial Intelligence",
+  "Machine Learning",
+  "Data Science",
+  "Cyber Security",
+  "Cloud Computing",
+  "Mobile Development",
+  "Software Engineering",
+  "Career",
+  "Education",
+  "Business",
+  "Finance",
+  "Travel",
+  "Food",
+  "Health & Fitness",
+  "Lifestyle",
+  "Photography",
+  "Entertainment",
+  "Books",
+  "Personal Development",
+  "Gaming",
+  "Sports",
+  "News",
+  "Others"
+];
+
+export default BLOG_CATEGORIES;
