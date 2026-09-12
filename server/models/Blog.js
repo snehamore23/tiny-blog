@@ -10,6 +10,7 @@ const BlogSchema = new Schema({
 category:{type:String,required:true},
 publishedAt: { type: Date, default: Date.now },
 author:{type:Schema.Types.ObjectId, ref: "User",required: true},
+slug:{type:String, required: true, unique:true},
 },
 {
     timestamps: true,
