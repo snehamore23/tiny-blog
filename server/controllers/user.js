@@ -92,37 +92,47 @@ const postSignup = async (req, res) => {
 const postLogin = async (req, res) => {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-        return res.status(400).json({
-            success: false,
-            message: "Email and password are required"
-        });
-    }
+    console.log("LOGIN EMAIL:", email);
 
     try {
-        const existingUser = await User.findOne({ email, password: md5(password),
-        }).select("_id name email")
-        
-        
-    if (existingUser) {
+        const existingUser = await User.findOne({ email });
+
+        console.log("USER FOUND:", !!existingUser);
+
+        if (!existingUser) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid email or password"
+            });
+        }
+
+        const passwordMatch = existingUser.password === md5(password);
+
+        console.log("PASSWORD MATCH:", passwordMatch);
+
+        if (!passwordMatch) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid email or password"
+            });
+        }
+
+        const user = await User.findById(existingUser._id)
+            .select("_id name email");
+
         return res.json({
             success: true,
             message: "User logged in successfully",
-            user: existingUser,
-
+            user
         });
-    }else{
-        return res.status(401).json({
+
+    } catch (error) {
+        console.log("LOGIN ERROR:", error);
+
+        return res.status(500).json({
             success: false,
-            message: "Invalid email or password"
+            message: error.message
         });
     }
-} catch (error) {
-    return res.status(500).json({
-        success: false,
-        message: error.message
-    });
-}
 };
-
 export { postSignup, postLogin };

@@ -1,6 +1,5 @@
 import Blog from "./../models/blog.js";
 
-
 // CREATE BLOG
 const postBlog = async (req, res) => {
     const { title, content, category, author } = req.body;
@@ -18,20 +17,16 @@ const postBlog = async (req, res) => {
             content,
             category,
             author,
-            slug: `temp-slug-${Date.now()}-${Math.random()
+            slug: `temp-${Date.now()}-${Math.random()
                 .toString(36)
-                .substr(2, 9)}`
+                .substring(2, 9)}`
         });
 
         const savedBlog = await newBlog.save();
 
-        // Create final slug
-        savedBlog.slug = `${title
-            .toLowerCase()
-            .replace(/ /g, "-")}-${savedBlog._id}`
-            .replace(/[^\w-]+/g, "");
+        savedBlog.slug =
+            `${title.toLowerCase().replace(/ /g, "-")}-${savedBlog._id}`.replace(/[^\w-]+/g, "");
 
-        // Save updated slug
         await savedBlog.save();
 
         res.status(201).json({
@@ -51,29 +46,29 @@ const postBlog = async (req, res) => {
 };
 
 
-// GET ALL BLOGS
+// GET BLOGS
+// GET BLOGS
 const getBlog = async (req, res) => {
+    const { author } = req.query;
 
-    try {
-        const blog = await Blog.find()
-            .populate("author", "_id name email")
-            .sort({ createdAt: -1 });
+const condition =[{status: "published"}];
+if (author) {
+    condition.push({ author: author });
+}
+
+    const blogs = await Blog.find({
+        $or: condition,
+        })
+       .populate("author", "_id name email")
+        .sort({status:1,
+            updatedAt: -1,
+        });
 
         res.status(200).json({
             success: true,
             message: "Blogs fetched successfully",
-            blog: blog
+            data: blogs
         });
-
-    } catch (error) {
-        console.log("Blog fetch error:", error);
-
-        res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
 };
-
 
 export { postBlog, getBlog };

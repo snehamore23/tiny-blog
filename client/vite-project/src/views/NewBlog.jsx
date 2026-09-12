@@ -1,10 +1,12 @@
 import MarkdownEditor from "@uiw/react-markdown-editor";
 import { useState, useEffect } from "react";
 import { BLOG_CATEGORIES } from "./../constants";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getCurrentUser } from "./../util";
 
 function NewBlog() {
+    const navigate = useNavigate();
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState(BLOG_CATEGORIES[0]);
@@ -40,13 +42,13 @@ function NewBlog() {
         }
       );
 
-      if (response.data.success) {
-        setMessage("Blog saved successfully");
+     if (response.data.success) {
+  setMessage("Blog saved successfully");
 
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 1000);
-      }
+  setTimeout(() => {
+    navigate("/");
+  }, 1000);
+}
     } catch (error) {
       console.log(error.response?.data || error.message);
 
