@@ -135,4 +135,20 @@ const postLogin = async (req, res) => {
         });
     }
 };
-export { postSignup, postLogin };
+
+const getBlogForSlug = async (req, res) => {
+    const { slug } = req.params;
+    if(!blog){
+        return res.status(404).json({
+            success: false,
+            message: "Blog not found"
+        });
+    }
+    res.status(200).json({
+        success: true,
+        data:blog,
+        message: "Blog fetched successfully"
+    });
+}
+
+export { postSignup, postLogin, getBlogForSlug };
