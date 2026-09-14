@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
+import jwt from "jsonwebtoken";
 
 import { postBlog, getBlog,getBlogForSlug ,patchpublishBlog, putBlog} from "./controllers/blog.js";
 import { postSignup, postLogin } from "./controllers/user.js";
@@ -33,6 +34,22 @@ app.get("/", (req, res) => {
     });
 });
 
+const jwtCheck = (req, res, next) => {
+    req.user = null;
+    const { authorization } = req.headers;
+    if (!authorization) {
+        return res.status(400).json({ message: "Authorization header missing" });
+    }
+    const token = authorization.split(" ")[1];
+    try {
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        console.log("Decoded Token:", decodedToken);
+        req.user = decodedToken;
+        next();
+    } catch (error) {
+        return res.status(401).json({ message: "Invalid token" });
+    }
+};
 
 // Signup and Login
 app.post("/signup", postSignup);
@@ -40,11 +57,11 @@ app.post("/login", postLogin);
 
 
 // Blog routes
-app.post("/blog", postBlog);
+app.post("/blog",jwtCheck ,postBlog);
 app.get("/blog", getBlog);
 app.get("/blog/:slug", getBlogForSlug);
-app.patch("/blog/:slug/publish", patchpublishBlog);
-app.put("/blog/:slug", putBlog);
+app.patch("/blog/:slug/publish",jwtCheck, patchpublishBlog);
+app.put("/blog/:slug",jwtCheck, putBlog);
 
 
 // Test route

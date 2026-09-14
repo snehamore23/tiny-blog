@@ -6,6 +6,8 @@ const postBlog = async (req, res) => {
     const { title, content, category} = req.body;
     const { authorization } = req.headers;
 
+    const {user}= req;
+
     console.log(authorization);
     let decodedToken;
 
@@ -14,6 +16,7 @@ try {
         authorization.split(" ")[1],
         process.env.JWT_SECRET
     );
+    
 
     console.log(decodedToken);
 
@@ -28,7 +31,7 @@ try {
         title,
         content,
         category,
-        author: decodedToken?.userId,
+        author:user?.Id,
         slug: `temp-${Date.now()}-${Math.random()
             .toString(36)
             .substring(2, 9)}`
@@ -100,6 +103,22 @@ const getBlogForSlug = async (req, res) => {
 
 const patchpublishBlog = async (req, res) => {
     const { slug } = req.params;
+    const {user} = req;
+
+    const blog = await Blog.findOne({slug: slug});
+    if(!blog){
+        return res.status(404).json({
+            success: false,
+            message: "Blog not found"
+        });
+    }
+    if (blog.author.toString() !== user?.Id){
+        return res.status(403).json({
+            success: false,
+            message: "You are not authorized to publish this blog"
+        });
+    }
+
     await Blog.findOneAndUpdate({slug: slug}, {status : "published"});
     res.status(200).json({
         success: true,
@@ -110,6 +129,22 @@ const patchpublishBlog = async (req, res) => {
 const putBlog = async (req, res) => {
     const { slug } = req.params;
     const { title, content, category } = req.body;
+    
+const {user} = req;
+
+const existingBlog = await Blog.findOne({slug: slug});
+if(!existingBlog){
+    return res.status(404).json({
+        success: false,
+        message: "Blog not found"
+    });
+}
+if (existingBlog.author.toString() !==user?.Id){
+    return res.status(403).json({
+        success: false,
+        message: "You are not authorized to update this blog"
+    });
+ } 
 
     if (!title || !content || !category) {
         return res.status(400).json({
