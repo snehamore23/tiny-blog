@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 
-import { postBlog, getBlog,getBlogForSlug } from "./controllers/blog.js";
+import { postBlog, getBlog,getBlogForSlug ,patchpublishBlog, putBlog} from "./controllers/blog.js";
 import { postSignup, postLogin } from "./controllers/user.js";
 
 dotenv.config();
@@ -43,6 +43,8 @@ app.post("/login", postLogin);
 app.post("/blog", postBlog);
 app.get("/blog", getBlog);
 app.get("/blog/:slug", getBlogForSlug);
+app.patch("/blog/:slug/publish", patchpublishBlog);
+app.put("/blog/:slug", putBlog);
 
 
 // Test route

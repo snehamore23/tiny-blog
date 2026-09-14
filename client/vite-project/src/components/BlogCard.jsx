@@ -70,7 +70,7 @@ function BlogCard({
             ) : (
                 <Link
                     className="bg-gray-700 text-white px-3 py-1 rounded-md absolute bottom-3 right-4 cursor-pointer hover:bg-gray-800"
-                    to={`/edit/${_id}`}
+                    to={`/edit/${slug}`}
                 >
                     Edit Blog
                 </Link>

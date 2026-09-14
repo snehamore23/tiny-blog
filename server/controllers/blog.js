@@ -85,5 +85,38 @@ const getBlogForSlug = async (req, res) => {
         data:blog,
         message: "Blog fetched successfully"
     });
-}
-export { postBlog, getBlog, getBlogForSlug };
+};
+
+const patchpublishBlog = async (req, res) => {
+    const { slug } = req.params;
+    await Blog.findOneAndUpdate({slug: slug}, {status : "published"});
+    res.status(200).json({
+        success: true,
+        message: "Blog published successfully"
+    });
+};
+
+const putBlog = async (req, res) => {
+    const { slug } = req.params;
+    const { title, content, category } = req.body;
+
+    if (!title || !content || !category) {
+        return res.status(400).json({
+            success: false,
+            message: "All fields are required"
+        });
+    }
+
+ const blog = await Blog.findOneAndUpdate
+ ({slug: slug},
+    {title,content,category});
+
+    return res.status(200).json({
+        success: true,
+        message: "Blog updated successfully",
+        data: blog,
+    });
+};
+
+
+export { postBlog, getBlog, getBlogForSlug,patchpublishBlog, putBlog };
