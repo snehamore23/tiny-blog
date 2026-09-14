@@ -1,50 +1,61 @@
 import Blog from "./../models/blog.js";
+import jwt from "jsonwebtoken";
 
 // CREATE BLOG
 const postBlog = async (req, res) => {
-    const { title, content, category, author } = req.body;
+    const { title, content, category} = req.body;
+    const { authorization } = req.headers;
 
-    if (!title || !content || !category || !author) {
+    console.log(authorization);
+    let decodedToken;
+
+try {
+    decodedToken = jwt.verify(
+        authorization.split(" ")[1],
+        process.env.JWT_SECRET
+    );
+
+    console.log(decodedToken);
+
+    if (!title || !content || !category) {
         return res.status(400).json({
             success: false,
             message: "All fields are required"
         });
     }
 
-    try {
-        const newBlog = new Blog({
-            title,
-            content,
-            category,
-            author,
-            slug: `temp-${Date.now()}-${Math.random()
-                .toString(36)
-                .substring(2, 9)}`
-        });
+    const newBlog = new Blog({
+        title,
+        content,
+        category,
+        author: decodedToken?.userId,
+        slug: `temp-${Date.now()}-${Math.random()
+            .toString(36)
+            .substring(2, 9)}`
+    });
 
-        const savedBlog = await newBlog.save();
+    const savedBlog = await newBlog.save();
 
-        savedBlog.slug =
-            `${title.toLowerCase().replace(/ /g, "-")}-${savedBlog._id}`.replace(/[^\w-]+/g, "");
+    savedBlog.slug =
+        `${title.toLowerCase().replace(/ /g, "-")}-${savedBlog._id}`.replace(/[^\w-]+/g, "");
 
-        await savedBlog.save();
+    await savedBlog.save();
 
-        res.status(201).json({
-            success: true,
-            message: "Blog created successfully",
-            blog: savedBlog
-        });
+    res.status(201).json({
+        success: true,
+        message: "Blog created successfully",
+        blog: savedBlog
+    });
 
-    } catch (error) {
-        console.log("Blog save error:", error);
+} catch (error) {
+    console.log("Blog save error:", error);
 
-        res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
-};
-
+    res.status(500).json({
+        success: false,
+        message: error.message
+    });
+}
+}
 
 // GET BLOGS
 // GET BLOGS

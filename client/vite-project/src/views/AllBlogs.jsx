@@ -8,12 +8,12 @@ function AllBlogs() {
     const [blogs, setBlogs] = useState([]);
 
  const fetchBlogs = async () => {
-       const response = await axios.get(
-                   `${import.meta.env.VITE_API_URL}/blog?author=${getCurrentUser()?._id || ""}`
-                );
+    const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/blog?author=${getCurrentUser()?._id || ""}`
+    );
 
-setBlogs(response.data.data || []);
-            };
+    setBlogs(response.data.data || []);
+};
 
     useEffect(() => {
         setUser(getCurrentUser());

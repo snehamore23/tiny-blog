@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import md5 from "md5";
+import jsonwebtoken from "jsonwebtoken";
 
 const postSignup = async (req, res) => {
     try {
@@ -93,45 +94,36 @@ const postLogin = async (req, res) => {
     const { email, password } = req.body;
 
     console.log("LOGIN EMAIL:", email);
+    console.log("LOGIN PASSWORD:", password);
 
-    try {
-        const existingUser = await User.findOne({ email });
+    if (!email || !password) {
+        return res.status(400).json({
+            success: false,
+            message: "Email and password are required"
+        });
+    }
+        const existingUser = await User.findOne({ email , password: md5(password),
 
-        console.log("USER FOUND:", !!existingUser);
+         }).select("_id name email");
 
-        if (!existingUser) {
-            return res.status(401).json({
-                success: false,
-                message: "Invalid email or password"
-            });
-        }
-
-        const passwordMatch = existingUser.password === md5(password);
-
-        console.log("PASSWORD MATCH:", passwordMatch);
-
-        if (!passwordMatch) {
-            return res.status(401).json({
-                success: false,
-                message: "Invalid email or password"
-            });
-        }
-
-        const user = await User.findById(existingUser._id)
-            .select("_id name email");
+if (existingUser) {
+    const token = jsonwebtoken.sign(
+        { userId: existingUser._id, email: existingUser.email, name: existingUser.name },
+        process.env.JWT_SECRET,
+        { expiresIn: "1d" }
+    );
 
         return res.json({
             success: true,
             message: "User logged in successfully",
-            user
+            user: existingUser,
+            token,
         });
-
-    } catch (error) {
-        console.log("LOGIN ERROR:", error);
+    }else {
 
         return res.status(500).json({
             success: false,
-            message: error.message
+            message: "Invalid email or password ",  
         });
     }
 };
