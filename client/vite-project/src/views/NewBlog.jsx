@@ -39,8 +39,11 @@ function NewBlog() {
           content,
           category,
           author: user._id,
-        }
-      );
+        },
+        {
+      headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}
+    }
+    );
 
      if (response.data.success) {
   setMessage("Blog saved successfully");

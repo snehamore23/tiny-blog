@@ -38,11 +38,15 @@ const loadBlog = async () => {
   }, []);
 
   const UpdateBlog = async () => {
+    try{
     const response = await axios.put(
         `${import.meta.env.VITE_API_URL}/blog/${slug}`,
         { title, content, category }
+    ,{
+      headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}
+    }
     );
-
+ 
     if (response?.data?.success) {
         toast.success("Blog Updated successfully");
 
@@ -50,23 +54,34 @@ const loadBlog = async () => {
             window.location.href = "/";
         }, 2000);
     }
-};
-
+  }
+  catch(error){
+    toast.error(error.response?.data?.message || "Error updating blog");
+}
+  };
 
 const publishBlog = async () => {
+  try {
     const response = await axios.patch(
         `${import.meta.env.VITE_API_URL}/blog/${slug}/publish`
-    );
 
+    ,{
+      headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}
+    }
+      );
     if (response?.data?.success) {
         toast.success("Blog Published successfully");
 
         setTimeout(() => {
             window.location.href = "/";
         }, 2000);
-    }
-};
+    } 
+  }
 
+    catch (error) {
+      toast.error(error.response?.data?.message || "Error publishing blog");
+    }
+  }
   return (
     <div className="max-w-[850px] mx-auto mt-8 px-4">
 
