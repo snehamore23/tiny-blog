@@ -84,7 +84,7 @@ app.put("/blog/:slug",jwtCheck, putBlog);
 app.get("/api/test", (req, res) => {
     res.json({
         success: true,
-        message: "Test route working"
+        message: "Test route working."
     });
 });
 
