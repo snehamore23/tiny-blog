@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getCurrentUser } from "./../util";
 import { useParams } from "react-router-dom";
+import Navbar from "./../components/Navbar";
 
 
 function EditBlog() {
@@ -63,12 +64,13 @@ const loadBlog = async () => {
 const publishBlog = async () => {
   try {
     const response = await axios.patch(
-        `${import.meta.env.VITE_API_URL}/blog/${slug}/publish`
+        `${import.meta.env.VITE_API_URL}/blog/${slug}/publish`,{},
 
-    ,{
+  {
       headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}
     }
       );
+
     if (response?.data?.success) {
         toast.success("Blog Published successfully");
 
@@ -87,6 +89,7 @@ const publishBlog = async () => {
 
       {/* Heading + Success Message */}
       <div className="flex items-center gap-6 mb-5">
+        <Navbar/>
         <h1 className="text-3xl font-bold">
           New Blog
         </h1>

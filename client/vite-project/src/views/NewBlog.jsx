@@ -4,6 +4,7 @@ import { BLOG_CATEGORIES } from "./../constants";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getCurrentUser } from "./../util";
+import Navbar from "./../components/Navbar";
 
 function NewBlog() {
     const navigate = useNavigate();
@@ -67,6 +68,7 @@ function NewBlog() {
 
       {/* Heading + Success Message */}
       <div className="flex items-center gap-6 mb-5">
+        <Navbar/>
         <h1 className="text-3xl font-bold">
           New Blog
         </h1>

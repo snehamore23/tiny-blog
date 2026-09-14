@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getCurrentUser } from "./../util";
 import axios from "axios";
 import BlogCard from "./../components/BlogCard";
+import Navbar from "./../components/Navbar";
 
 function AllBlogs() {
     const [user, setUser] = useState(null);
@@ -25,17 +26,11 @@ function AllBlogs() {
     }, [user]);
 
     return (
+        <div>
+
+
         <div className="max-w-[850px] mx-auto mt-5">
-
-            <h1 className="text-3xl font-bold mb-2">
-                All Blogs
-            </h1>
-
-            <p className="mb-5">
-                {user
-                    ? `Hello, ${user.name}!`
-                    : "Welcome, Guest!"}
-            </p>
+  <Navbar/>
 
             {blogs.map((blog) => (
                 <BlogCard
@@ -52,6 +47,7 @@ function AllBlogs() {
                 />
             ))}
 
+        </div>
         </div>
     );
 }
