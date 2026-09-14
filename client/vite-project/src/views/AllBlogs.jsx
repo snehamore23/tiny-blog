@@ -44,6 +44,7 @@ function AllBlogs() {
                     status={blog.status}
                     category={blog.category}
                     slug={blog.slug}
+                    viewCount={blog.viewCount}
                 />
             ))}
 

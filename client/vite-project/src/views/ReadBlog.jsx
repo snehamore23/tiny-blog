@@ -25,7 +25,7 @@ function ReadBlog() {
 <div className="max-w-[1200px] mx-auto p-4 mt-10">   
     <Navbar/>    
      <h1 className="text-2xl font-bold mb-4">{blog.title}</h1>
-     <p>Published On: {new Date(blog.publishedAt || blog.updatedAt).toLocaleString()}</p>
+     <p>Published On: {new Date(blog.publishedAt || blog.updatedAt).toLocaleString()}, Read by {blog.viewCount}people</p>
 
      <div className="flex items-center mb-4">
      <span className="inline-block bg-orange-400 text-white text-xs font-semibold px-2 py-1 rounded-full ">

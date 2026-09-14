@@ -11,6 +11,7 @@ category:{type:String,required:true},
 publishedAt: { type: Date, default: Date.now },
 author:{type:Schema.Types.ObjectId, ref: "User",required: true},
 slug:{type:String, required: true, unique:true},
+viewCount:{type:Number, default:0},
 },
 {
     timestamps: true,

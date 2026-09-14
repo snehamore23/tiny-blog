@@ -8,6 +8,7 @@ import { postBlog, getBlog,getBlogForSlug ,patchpublishBlog, putBlog} from "./co
 import { postSignup, postLogin } from "./controllers/user.js";
 
 dotenv.config();
+import Blog from "./models/blog.js";
 
 const app = express();
 
@@ -50,7 +51,22 @@ const jwtCheck = (req, res, next) => {
         return res.status(401).json({ message: "Invalid token" });
     }
 };
-
+const incrementViewCount = async (req, res, next) => {
+    const { slug } = req.params;
+    try{
+       const blog= await Blog.findOne({ slug: slug });
+       if(blog){
+        blog.viewCount += 1;
+        await blog.save();
+       }
+      
+    }
+    catch(error){
+        console.error("Error incrementing view count:", error);
+    
+    }
+    next();
+};
 // Signup and Login
 app.post("/signup", postSignup);
 app.post("/login", postLogin);
@@ -59,7 +75,7 @@ app.post("/login", postLogin);
 // Blog routes
 app.post("/blog",jwtCheck ,postBlog);
 app.get("/blog", getBlog);
-app.get("/blog/:slug", getBlogForSlug);
+app.get("/blog/:slug",incrementViewCount, getBlogForSlug);
 app.patch("/blog/:slug/publish",jwtCheck, patchpublishBlog);
 app.put("/blog/:slug",jwtCheck, putBlog);
 

@@ -4,9 +4,12 @@ function BlogCard({
     title,
     author,
     createdAt,
+    publishedAt,
+    updatedAt,
     category,
     slug,
     status,
+    viewCount,
     _id
 }) {
     return (
@@ -47,12 +50,10 @@ function BlogCard({
             </div>
 
             {/* Published Date */}
-            <p className="text-sm mt-2">
-                Published On:{" "}
-                {createdAt
-                    ? new Date(createdAt).toLocaleString()
-                    : "Not available"}
-            </p>
+          <p className="text-sm mt-2">
+    Published On: {new Date(publishedAt || updatedAt || createdAt).toLocaleString()},
+    Read By: {viewCount || 0} people
+</p>
 
             {/* Category */}
             <span className="absolute top-3 right-3 bg-gray-200 text-gray-700 text-xs font-semibold px-2 py-1 rounded-md">
