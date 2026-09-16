@@ -1,7 +1,7 @@
 import MarkdownEditor from "@uiw/react-markdown-editor";
 import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
-import { BLOG_CATEGORIES } from "./../constants";
+import { BLOG_CATEGORIES } from "./../Constants";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getCurrentUser } from "./../util";
