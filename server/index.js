@@ -51,7 +51,7 @@ const jwtCheck = (req, res, next) => {
         return res.status(401).json({ message: "Invalid token" });
     }
 };
-const incrementViewCount = async (req, res, next) => {
+const increaseViewCount = async (req, res, next) => {
     const { slug } = req.params;
     try{
        const blog= await Blog.findOne({ slug: slug });
@@ -75,7 +75,7 @@ app.post("/login", postLogin);
 // Blog routes
 app.post("/blog",jwtCheck ,postBlog);
 app.get("/blog", getBlog);
-app.get("/blog/:slug",incrementViewCount, getBlogForSlug);
+app.get("/blog/:slug",increaseViewCount, getBlogForSlug);
 app.patch("/blog/:slug/publish",jwtCheck, patchpublishBlog);
 app.put("/blog/:slug",jwtCheck, putBlog);
 

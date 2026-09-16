@@ -1,4 +1,4 @@
-import Blog from "./../models/blog.js";
+import Blog from "./../models/Blog.js";
 import jwt from "jsonwebtoken";
 
 // CREATE BLOG
@@ -72,10 +72,10 @@ const getBlog = async (req, res) => {
         $or: condition,
     })
         .populate("author", "_id name email")
-        .sort({
-            status: 1,
-            updatedAt: -1,
-        });
+       .sort({
+    status: 1,
+    createdAt: -1,
+});
 
     res.status(200).json({
         success: true,
