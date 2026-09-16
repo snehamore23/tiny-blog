@@ -1,4 +1,3 @@
-# [Tiny Blog 📝](https://tiny-blog-ui-c895.onrender.com)
 
 # 📝 Tiny Blog
 
@@ -48,6 +47,10 @@ Tiny Blog is a full-stack blogging platform that allows users to create, edit, p
 5. User can publish the blog.
 6. Other users can read published blogs.
 7. Blog views are tracked automatically.
+
+## 🌐 Live Demo
+
+🔗 [Visit Tiny Blog](https://tiny-blog-ui-c895.onrender.com)
 
 ## 📂 Project Structure
 
