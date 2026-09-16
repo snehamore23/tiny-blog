@@ -21,7 +21,7 @@ services:
     plan: free
     rootDir: client/vite-project
     buildCommand: npm install && npm run build
-    publishDir: dist
+    staticPublishPath: dist
     routes:
       - type: rewrite
         source: /*

@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getCurrentUser } from "./../util";
 
 function Navbar() {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -11,7 +12,8 @@ function Navbar() {
 
   const handleLogout = () => {
     localStorage.clear();
-    window.location.href = "/login";
+    setUser(null);
+    navigate("/login");
   };
 
   return (
