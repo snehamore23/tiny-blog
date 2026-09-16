@@ -8,6 +8,8 @@ import { postBlog, getBlog,getBlogForSlug ,patchpublishBlog, putBlog} from "./co
 import { postSignup, postLogin } from "./controllers/user.js";
 
 dotenv.config();
+console.log("MONGO_URI exists:", !!process.env.MONGO_URI);
+console.log("JWT_SECRET exists:", !!process.env.JWT_SECRET);
 import Blog from "./models/Blog.js";
 
 const app = express();
