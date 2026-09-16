@@ -1,4 +1,10 @@
 {
+  "name": "tiny-blog",
+  "private": true,
+  "scripts": {
+    "build": "cd client/vite-project && npm install && npm run build",
+    "start": "node server/index.js"
+  },
   "dependencies": {
     "jsonwebtoken": "^9.0.3"
   }

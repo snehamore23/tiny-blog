@@ -60,28 +60,37 @@ const postBlog = async (req, res) => {
 
 // GET BLOGS
 const getBlog = async (req, res) => {
-    const { author } = req.query;
+    try {
+        const { author } = req.query;
 
-    const condition = [{ status: "published" }];
+        const condition = [{ status: "published" }];
 
-    if (author) {
-        condition.push({ author: author });
+        if (author) {
+            condition.push({ author: author });
+        }
+
+        const blogs = await Blog.find({
+            $or: condition,
+        })
+            .populate("author", "_id name email")
+            .sort({
+                status: 1,
+                createdAt: -1,
+            });
+
+        res.status(200).json({
+            success: true,
+            message: "Blogs fetched successfully",
+            data: blogs
+        });
+    } catch (error) {
+        console.error("Error in getBlog:", error);
+        res.status(500).json({
+            success: false,
+            message: error.message || "Failed to fetch blogs from database",
+            data: []
+        });
     }
-
-    const blogs = await Blog.find({
-        $or: condition,
-    })
-        .populate("author", "_id name email")
-       .sort({
-    status: 1,
-    createdAt: -1,
-});
-
-    res.status(200).json({
-        success: true,
-        message: "Blogs fetched successfully",
-        data: blogs
-    });
 };
 
 

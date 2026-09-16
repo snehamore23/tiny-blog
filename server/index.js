@@ -19,6 +19,10 @@ app.use(cors());
 // MongoDB Connection
 const connectDB = async () => {
     try {
+        if (!process.env.MONGO_URI) {
+            console.error("❌ MONGO_URI is not defined in environment variables!");
+            return;
+        }
         await mongoose.connect(process.env.MONGO_URI);
         console.log("✅ MongoDB Connected");
     } catch (error) {
@@ -31,7 +35,8 @@ const connectDB = async () => {
 app.get("/", (req, res) => {
     res.json({
         success: true,
-        message: "Server is up and running..."
+        message: "Server is up and running...",
+        dbConnected: mongoose.connection.readyState === 1
     });
 });
 

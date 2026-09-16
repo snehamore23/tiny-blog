@@ -1,0 +1,34 @@
+services:
+  # Backend API Web Service
+  - type: web
+    name: tiny-blog-api
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+
+  # Frontend UI Static Site
+  - type: static
+    name: tiny-blog-ui
+    plan: free
+    rootDir: client/vite-project
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: tiny-blog-api
+          property: host
