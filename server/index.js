@@ -8,7 +8,7 @@ import { postBlog, getBlog,getBlogForSlug ,patchpublishBlog, putBlog} from "./co
 import { postSignup, postLogin } from "./controllers/user.js";
 
 dotenv.config();
-import Blog from "./models/blog.js";
+import Blog from "./models/Blog.js";
 
 const app = express();
 
