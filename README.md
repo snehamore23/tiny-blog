@@ -52,7 +52,7 @@ Tiny Blog is a full-stack blogging platform that allows users to create, edit, p
 
 🔗 [Visit Tiny Blog](https://tiny-blog-ui-c895.onrender.com)
 
-## 📂 Project Structure.
+## 📁 Project Structure
 
 ```text
 Tiny Blog
@@ -62,7 +62,7 @@ Tiny Blog
     ├── controllers
     ├── models
     └── index.js
-
+```
 
 ## 🔄 How It Works
 
@@ -82,3 +82,4 @@ Publish Blog
 Read Published Blog
      ↓
 Track Views
+```
