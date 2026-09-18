@@ -62,3 +62,22 @@ Tiny Blog
     ├── controllers
     ├── models
     └── index.js
+
+ ## 🔄 How It Works
+
+```text
+User Signup
+     ↓
+User Login
+     ↓
+JWT Authentication
+     ↓
+Create Blog
+     ↓
+Edit Blog
+     ↓
+Publish Blog
+     ↓
+Read Published Blog
+     ↓
+Track Views
