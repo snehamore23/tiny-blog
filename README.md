@@ -63,7 +63,8 @@ Tiny Blog
     ├── models
     └── index.js
 
- ## 🔄 How It Works
+
+## 🔄 How It Works
 
 ```text
 User Signup
